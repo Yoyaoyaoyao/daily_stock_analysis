@@ -563,3 +563,10 @@ jobs:
             echo "📜 最近日志（最后 30 行）:"
             tail -30 logs/stock_analysis_*.log 2>/dev/null || echo "无日志"
           fi
+      - name: Commit and push generated reports
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/*.md
+          git commit -m "🤖 Auto update stock report ${{ github.run_id }}" || echo "No new report to commit"
+          git push
